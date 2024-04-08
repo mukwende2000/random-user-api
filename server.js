@@ -2,7 +2,8 @@ const express = require('express')
 const axios = require('axios')
 const {lastNames, firstNames} = require('./utils/info')
 const dotenv = require('dotenv')
-const { generateDate, calculateAge } = require('./utils/generateNumber')
+const { generateDate, calculateAge } = require('./utils/dateGeneration')
+const generateRandomNumber = require('./utils/numberGeneration')
 dotenv.config()
 
 
@@ -26,6 +27,7 @@ app.get('/', async (req, res) => {
             dob: {
                 date: generateDate()
             },
+            phone: generateRandomNumber(),
             location: {},
             info: {
                 results: 1,
