@@ -1,6 +1,7 @@
 const {lastNames, firstNames} = require('../utils/info')
 const { generateDate, calculateAge } = require('../utils/dateGeneration')
 const generateRandomNumber = require('../utils/numberGeneration')
+const { generatePicture } = require('../utils/pictureGeneration')
 
 const generateUser = async (req, res) => {
     try {
@@ -17,6 +18,7 @@ const generateUser = async (req, res) => {
                 date: generateDate()
             },
             phone: generateRandomNumber(),
+            picture: generatePicture() ,
             location: {},
             info: {
                 results: 1,
