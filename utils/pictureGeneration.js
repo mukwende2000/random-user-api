@@ -1,4 +1,3 @@
-// const pictures = require('./pictures')
 const pictures = [
     '/images/1.jpg',
     '/images/2.jpg',
@@ -23,8 +22,6 @@ function generatePicture() {
     const randomNumber = Math.floor(Math.random() * 18) + 1
     const picture = pictures.filter((picture) => picture.includes(`/${randomNumber}.`))
     pictures.splice(pictures.indexOf(picture[0]), 1)
-    console.log(randomNumber)
-    // console.log(picture)
     return picture[0]
 }
 module.exports = { generatePicture }

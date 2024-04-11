@@ -1,21 +1,26 @@
-const {lastNames, firstNames} = require('../utils/info')
+const { lastNames, firstNames } = require('../utils/info')
 const { generateDate, calculateAge } = require('../utils/dateGeneration')
 const generateRandomNumber = require('../utils/numberGeneration')
 const pictures = require('../utils/pictures')
 
-const generateUsers = async (req, res) => {
-    const results = []
+const generateUsers = async(req, res) => {
+    req.query.results = req.query.results || '1'
+    const { results } = req.query
+    const data = {}
+    const resultsArray = []
     let count = 18
+
     try {
-        for (let i = 1; i <= req.params.id; i++) {
+        if(req.query.results > 18) {
+            return res.json("Can only send 18 users at a time")
+        }
+        for (let i = 1; i <= results; i++) {
             const firstName = firstNames[Math.floor(Math.random() * firstNames.length)]
             const lastName = lastNames[Math.floor(Math.random() * lastNames.length)]
 
             count = count - 1
             const randomNumber = Math.floor(Math.random() * count) + 1
-            // const picture = pictures.filter((picture) => picture.includes(`/${randomNumber}.`))[0]
-           const picture = pictures.splice(randomNumber, 1)[0]
-            console.log(pictures)
+            const picture = pictures.splice(randomNumber, 1)[0]
 
             const generatedUser = {
                 gender: firstName.gender,
@@ -29,21 +34,19 @@ const generateUsers = async (req, res) => {
                 },
                 phone: generateRandomNumber(),
                 picture,
-                location: {},
-                info: {
-                    results: +req.params.id,
-                    page: 1,
-                    version: '1.4'
-                }
             }
 
             generatedUser.dob.age = calculateAge(generatedUser.dob.date)
-            generatedUser.email = `${generatedUser.name.first.toLowerCase()}.${generatedUser.name.last.toLowerCase()}@example.com`
-            results.push(generatedUser)
-        }
-        return res.json(results)
+            const { name:{first, last} } = generatedUser
+            generatedUser.email = `${first.toLowerCase()}.${last.toLowerCase()}@example.com`
+            resultsArray.push(generatedUser)
+        } 
+        data.results = resultsArray
+        data.info = {results: +results, page: 1, version: '1.4'}
+        return res.json(data)       
     } catch (error) {
         console.log(error)
+                
     }
 }
 

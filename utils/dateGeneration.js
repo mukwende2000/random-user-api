@@ -3,7 +3,11 @@ function getRandomNumber(startDigit, endDigit) {
 }
 
 function generateDate() {
-    return (new Date (`${getRandomNumber(12, 1)}/${getRandomNumber(31, 1)}/${getRandomNumber((2007 - 1944), 1944)}`).toLocaleDateString())
+    const date = getRandomNumber(12, 1)
+    const month = getRandomNumber(31, 1)
+    const year = getRandomNumber((2007 - 1944), 1944)
+    
+    return new Date(`${date}/${month}/${year}`).toLocaleDateString()
 }
 
 function calculateAge(dob) {
